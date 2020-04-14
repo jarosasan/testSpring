@@ -21,22 +21,22 @@ public class Plant implements Serializable {
     private String name;
 
     @Column(name = "plant_type")
-    private Integer plantType = 0;
+    private Boolean plantType;
 
     @Column(name = "price")
     private Float price = 0F;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "plant")
-    private Description description;
 
-    public Description getDescription() {
-        return description;
+    //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "plant")
+//    @JoinColumn(name = "plant_id", referencedColumnName = "id")
+//    @Transient
+    @OneToOne(mappedBy = "plant", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private Description descript;
+
+    public Description getDescript() {
+        return descript;
     }
-
-    public void setDescription(Description description) {
-        this.description = description;
-    }
-
 
 
     public Integer getAmount() {
@@ -63,11 +63,11 @@ public class Plant implements Serializable {
         this.name = name;
     }
 
-    public Integer getPlantType() {
+    public Boolean getPlantType() {
         return plantType;
     }
 
-    public void setPlantType(Integer plantType) {
+    public void setPlantType(Boolean plantType) {
         this.plantType = plantType;
     }
 
@@ -79,12 +79,18 @@ public class Plant implements Serializable {
         this.price = price;
     }
 
+
+    @Override
     public String toString() {
-      return "Plants{amount=" + amount + 
-        ", id=" + id + 
-        ", name=" + name + 
-        ", plantType=" + plantType + 
-        ", price=" + price + 
-        "}";
+        return "Plant{" +
+                "amount=" + amount +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", plantType=" + plantType +
+                ", price=" + price +
+                ", description=" + descript +
+                '}';
     }
+
+
 }

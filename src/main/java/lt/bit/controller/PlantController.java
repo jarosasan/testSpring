@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -37,7 +34,7 @@ public class PlantController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addPlant(@ModelAttribute("plant") Plant plant, BindingResult result){
+    public ModelAndView addPlant(@ModelAttribute("plant") Plant plant, @RequestParam String descript, BindingResult result){
         ModelAndView mav = new ModelAndView();
 
         if (result.hasErrors()){
@@ -45,7 +42,7 @@ public class PlantController {
             return mav;
         }
 
-        plantService.addPlant(plant);
+        plantService.addPlant(plant, descript);
         mav.setViewName("redirect:/");
         return mav;
     }
@@ -58,7 +55,7 @@ public class PlantController {
     }
 
     @PostMapping("/edit")
-    public ModelAndView updatePlant(@ModelAttribute("plant") Plant plant, BindingResult result){
+    public ModelAndView updatePlant(@ModelAttribute("plant") Plant plant, @RequestParam String descript, BindingResult result){
         ModelAndView mav = new ModelAndView();
 
         if (result.hasErrors()){
@@ -66,7 +63,7 @@ public class PlantController {
             return mav;
         }
 
-        plantService.addPlant(plant);
+        plantService.addPlant(plant, descript);
         mav.setViewName("redirect:/");
         return mav;
     }

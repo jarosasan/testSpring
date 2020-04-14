@@ -2,32 +2,30 @@ package lt.bit.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
-@Table(name = "desc")
+@Table(name = "descr")
 public class Description implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "descript", nullable = false)
+    private String descript;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, nullable = false)
     private Integer id;
 
- 
     @JoinColumn(name = "plant_id", referencedColumnName = "id")
     @OneToOne(optional = false)
     private Plant plant;
 
-    public String getDescription() {
-        return description;
+    public String getDescript() {
+        return descript;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescript(String descript) {
+        this.descript = descript;
     }
 
     public Integer getId() {
@@ -42,31 +40,14 @@ public class Description implements Serializable {
         return plant;
     }
 
-    public void setPlan(Plant plant) {
+    public void setPlant(Plant plant) {
         this.plant = plant;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Description)) return false;
-        Description that = (Description) o;
-        return Objects.equals(getDescription(), that.getDescription()) &&
-                Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getPlant(), that.getPlant());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getDescription(), getId(), getPlant());
-    }
-
-    @Override
     public String toString() {
-        return "Description{" +
-                "description='" + description + '\'' +
-                ", id=" + id +
-                ", plant=" + plant +
-                '}';
+      return "Description{descript=" + descript + 
+        ", id=" + id + 
+        ", plantId=" + plant +
+        "}";
     }
 }
