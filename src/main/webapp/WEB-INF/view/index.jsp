@@ -20,6 +20,7 @@
                     <th scope="col">Kiekis</th>
                     <th scope="col">Kaina</th>
                     <th scope="col">Vienmatis / Daugametis</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
 
@@ -35,7 +36,7 @@
                         </td>
                         <td><c:out value="${p.price}"/>
                         </td>
-                        <td><c:out value="${p.plantType}"/>
+                        <td><c:out value="${p.plantType?'Daudemetis':'Vienmetis'}"/>
                         </td>
                         <td>
 
@@ -45,8 +46,8 @@
                             <form method="post" action="${remove}">
                                 <button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
                             </form>
-                            <c:url value="/desc/${p.id}/" var="desc"/>
-                            <a href="${orders}" class="btn btn-warning btn-sm btn-block">Aprašymas</a>
+                            <c:url value="/description/${p.id}/" var="desc"/>
+                            <a href="${desc}" class="btn btn-warning btn-sm btn-block">Aprašymas</a>
 
                         </td>
                     </tr>

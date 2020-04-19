@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlantsRepository extends JpaRepository<Plant, Integer>, JpaSpecificationExecutor<Plant> {
-
 }

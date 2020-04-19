@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="test1" uuid="05c27630-c792-4332-9d17-ea7488e7f346">
+    <data-source source="LOCAL" name="test2" uuid="c75cb4c1-dcdd-4c54-bf07-48e38f2f099c">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/test_spring_1</jdbc-url>
-      <driver-properties>
-        <property name="packetDebugBufferSize" value="time20" />
-        <property name="serverTimezone" value="true" />
-      </driver-properties>
+      <jdbc-url>jdbc:mysql://localhost:3306/spring_test_1?serverTimezone=UTC</jdbc-url>
     </data-source>
   </component>
 </project>

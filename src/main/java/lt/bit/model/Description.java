@@ -2,6 +2,7 @@ package lt.bit.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "descr")
@@ -9,23 +10,28 @@ public class Description implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "descript", nullable = false)
-    private String descript;
+    private String descripto;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, nullable = false)
     private Integer id;
 
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "plant_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
     private Plant plant;
 
-    public String getDescript() {
-        return descript;
+
+    public Description() {
     }
 
-    public void setDescript(String descript) {
-        this.descript = descript;
+    public String getDescripto() {
+        return descripto;
+    }
+
+    public void setDescripto(String descripto) {
+        this.descripto = descripto;
     }
 
     public Integer getId() {
@@ -45,9 +51,26 @@ public class Description implements Serializable {
     }
 
     public String toString() {
-      return "Description{descript=" + descript + 
-        ", id=" + id + 
-        ", plantId=" + plant +
-        "}";
+        return "Description{descript=" + descripto +
+                ", id=" + id +
+                ", plantId=" + plant +
+                "}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Description)) return false;
+        Description that = (Description) o;
+        return Objects.equals(getDescripto(), that.getDescripto()) &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getPlant(), that.getPlant());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDescripto(), getId(), getPlant());
+    }
+
+
 }

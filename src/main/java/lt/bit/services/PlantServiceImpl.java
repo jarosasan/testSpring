@@ -1,5 +1,6 @@
 package lt.bit.services;
 
+import com.google.protobuf.Descriptors.Descriptor;
 import lt.bit.model.Description;
 import lt.bit.model.Plant;
 import lt.bit.repository.DescriptionRepository;
@@ -26,23 +27,28 @@ public class PlantServiceImpl implements PlantService {
 
     @Override
     @Transactional
-    public void addPlant(Plant plant, String description) {
+    public void addPlant(Plant plant, Description description) {
         Plant p = plantsRepository.save(plant);
-        System.out.println(p);
-//        Description d = new Description(description, p);
-        Description d = new Description();
-        d.setDescript(description);
-        d.setPlant(p);
-
-            descriptionRepository.save(d);
+        description.setPlant(p);
+        descriptionRepository.save(description);
 
     }
 
     @Override
     @Transactional
-    public void updatePlant(Plant plant, String description) {
-        plantsRepository.save(plant);
-
+    public void updatePlant(Plant plant, Description description) {
+        Plant p = plantsRepository.getOne(plant.getId());
+        Description d = p.getDescription();
+        if(d != null){
+            d.setDescripto(description.getDescripto());
+        }else{
+            p.setDescription(description);
+        }
+        p.setName(plant.getName());
+        p.setAmount(plant.getAmount());
+        p.setPrice(plant.getPrice());
+        p.setPlantType(plant.getPlantType());
+        plantsRepository.save(p);
     }
 
     @Override

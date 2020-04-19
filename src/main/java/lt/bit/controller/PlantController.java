@@ -1,7 +1,9 @@
 package lt.bit.controller;
 
 
+import lt.bit.model.Description;
 import lt.bit.model.Plant;
+import lt.bit.repository.DescriptionRepository;
 import lt.bit.services.PlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,9 @@ public class PlantController {
     @Autowired
     private PlantService plantService;
 
+    @Autowired
+    private DescriptionRepository descriptionRepository;
+
     @GetMapping("/")
     public ModelAndView allPlants(){
         ModelAndView mav = new ModelAndView("index");
@@ -30,32 +35,33 @@ public class PlantController {
     @GetMapping("/add")
     public String createPlant(Model model){
         model.addAttribute("plant", new Plant());
+        model.addAttribute("description", new Description());
         return "plantForm";
     }
 
     @PostMapping("/add")
-    public ModelAndView addPlant(@ModelAttribute("plant") Plant plant, @RequestParam String descript, BindingResult result){
+    public ModelAndView addPlant(@ModelAttribute("description") Description description, @ModelAttribute("plant") Plant plant,  BindingResult result){
         ModelAndView mav = new ModelAndView();
-
         if (result.hasErrors()){
             mav.setViewName("plantForm");
             return mav;
         }
-
-        plantService.addPlant(plant, descript);
+        plantService.addPlant(plant, description);
         mav.setViewName("redirect:/");
         return mav;
     }
 
     @GetMapping("/edit/{id}")
-    public String editPlant(Model model, @PathVariable("id") Integer id){
+    public ModelAndView editPlant( @PathVariable("id") Integer id){
+        ModelAndView mav = new ModelAndView("plantForm");
         Plant plant = plantService.getOne(id);
-        model.addAttribute("plant", plant);
-        return "plantForm";
+        mav.addObject("plant", plant);
+        mav.addObject("description", plant.getDescription() !=null?plant.getDescription():new Description());
+        return mav;
     }
 
     @PostMapping("/edit")
-    public ModelAndView updatePlant(@ModelAttribute("plant") Plant plant, @RequestParam String descript, BindingResult result){
+    public ModelAndView updatePlant(@ModelAttribute("plant") Plant plant, @ModelAttribute("description") Description description, BindingResult result){
         ModelAndView mav = new ModelAndView();
 
         if (result.hasErrors()){
@@ -63,7 +69,7 @@ public class PlantController {
             return mav;
         }
 
-        plantService.addPlant(plant, descript);
+        plantService.updatePlant(plant, description);
         mav.setViewName("redirect:/");
         return mav;
     }
@@ -74,6 +80,15 @@ public class PlantController {
         Plant plant = plantService.getOne(id);
         plantService.deletePlant(plant);
         mav.setViewName("redirect:/");
+        return mav;
+    }
+
+    @GetMapping("/description/{id}")
+    public ModelAndView getDescription(@PathVariable("id") Integer id){
+        ModelAndView mav = new ModelAndView("description");
+        Plant plant = plantService.getOne(id);
+        mav.addObject("plant", plant);
+        System.out.println("=====desc===="+plant.getDescription());
         return mav;
     }
 
